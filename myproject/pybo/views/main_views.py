@@ -11,6 +11,6 @@ def hello_pybo():
 
 
 @bp.route('/')
-def index(charset='utf-8'):
+def index():
     question_list = Question.query.order_by(Question.create_date.desc())
     return render_template('question/question_list.html', question_list=question_list)
