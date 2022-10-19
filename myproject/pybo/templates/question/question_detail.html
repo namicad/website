@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
-<div class="container my-3">
+{% extends 'base.html' %}
+{% block content %}
     <!-- question -->
     <h2 class="border-bottom py-2">{{ question.subject }}</h2>
     <div class="card my-3">
@@ -28,9 +28,25 @@
     {% endfor %}
     <!-- answer submit -->
     <form action="{{ url_for('answer.create', question_id=question.id) }}" method="post" class="my-3">
+        {{ form.csrf_token }}
+        <!-- error Start -->
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for field, errors in form.errors.items() %}
+            <strong>{{ form[field].label }}</strong>
+            <ul>
+                {% for error in errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <!-- error End -->
         <div class="mb-3">
             <textarea name="content" id="content" class="form-control" rows="10"></textarea>
         </div>
         <input type="submit" value="answer submit" class="btn btn-primary">
     </form>
 </div>
+{% endblock %}
